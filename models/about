@@ -1,0 +1,12 @@
+var mongoose     = require('mongoose');
+var Schema       = mongoose.Schema;
+
+var AboutSchema   = new Schema({
+  name: String,
+  about: String,
+  image_path: String,
+  lastname: String,
+  aboutid: String,
+});
+
+module.exports = mongoose.model('about', AboutSchema);

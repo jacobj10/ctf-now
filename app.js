@@ -6,9 +6,9 @@ var session = require('express-session');
 var app = express();
 var port = 8081
 
-// var mongoose = require('mongoose');
-// var mongo_address = "127.0.0.1";
-// mongoose.connect(mongo_address);
+var mongoose = require('mongoose');
+var mongo_address = "127.0.0.1";
+mongoose.connect(mongo_address);
 
 // Configure middleware
 //app.use(morgan('dev'));
