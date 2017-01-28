@@ -3,9 +3,9 @@ var Schema       = mongoose.Schema;
 
 var AboutSchema   = new Schema({
   name: String,
+  username: String,
   about: String,
   image_path: String,
-  lastname: String,
   aboutid: String,
 });
 

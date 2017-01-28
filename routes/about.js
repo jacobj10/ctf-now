@@ -6,9 +6,7 @@ var request = require('request');
 var About = require('../models/about');
 
 router.get('/', function(req, res) {
-    console.log(req);
     About.find({}, function(err, users) {
-        console.log(users);
         res.json({
             success: 1,
             body: users
@@ -17,10 +15,28 @@ router.get('/', function(req, res) {
 });
 
 router.post('/', function(req, res) {
-    console.log("reqlol");
-    res.json({
-        sucess: 1,
-        body: "aylmao"
-    })
+    if (req.body.name && req.body.username && req.body.desc) {
+        var about = new About({
+          name: req.body.name,
+          username: req.body.username,
+          about: req.body.desc,
+          image_path: 'n/a',
+        });
+        about.save(function(err) {
+            if (err) {
+                console.log(err)
+            } else {
+                res.json({
+                    success: 1,
+                    body: "Added - " + req.body.name 
+                })
+            }
+        });
+    } else {
+        res.json({
+            success: 0,
+            body: err
+        })
+    }
 });
 module.exports = router;
