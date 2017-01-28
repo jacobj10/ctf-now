@@ -1,12 +1,24 @@
 var express = require('express');
 var router = express.Router();
 var request = require('request');
+var url = require('url');
 
 //Models
 var About = require('../models/about');
 
 router.get('/', function(req, res) {
-    About.find({}, function(err, users) {
+    var queryData = url.parse(req.url, true).query;
+    var query = {}
+    if (queryData._id) {
+        query["_id"] = queryData._id;
+    }
+    if (queryData.name) {
+        query["name"] = {"$regex": queryData.name};
+    }
+    if (queryData.username) {
+        query["username"] = {"$regex": queryData.username};
+    }
+    About.find(query, function(err, users) {
         res.json({
             success: 1,
             body: users
@@ -35,7 +47,6 @@ router.post('/', function(req, res) {
     } else {
         res.json({
             success: 0,
-            body: err
         })
     }
 });

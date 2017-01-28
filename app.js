@@ -28,5 +28,8 @@ app.use('/', express.static(__dirname + '/ctf-app/index.html'));
 var about = require('./routes/about');
 app.use('/api/about', about);
 
+var user = require('./routes/user');
+app.use('/api/user', user);
+
 app.listen(port);
 console.log('API running on port ' + port);
