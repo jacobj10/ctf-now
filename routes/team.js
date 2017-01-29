@@ -5,7 +5,7 @@ var url = require('url');
 var access = require('../access');
 
 //Models
-var About = require('../models/about');
+var Team = require('../models/team');
 
 router.get('/', function(req, res) {
     var queryData = url.parse(req.url, true).query;
@@ -16,10 +16,7 @@ router.get('/', function(req, res) {
     if (queryData.name) {
         query["name"] = {"$regex": queryData.name};
     }
-    if (queryData.username) {
-        query["username"] = {"$regex": queryData.username};
-    }
-    About.find(query, function(err, about) {
+    Team.find(query, function(err, about) {
         res.json({
             success: 1,
             body: about
@@ -28,14 +25,13 @@ router.get('/', function(req, res) {
 });
 
 router.post('/add', access.requireLogin, function(req, res) {
-    if (req.body.name && req.body.username && req.body.desc) {
-        var about = new About({
+    if (req.body.name) {
+        var team = new Team({
           name: req.body.name,
-          username: req.body.username,
-          about: req.body.desc,
-          image_path: 'n/a',
+          members: req.session.user._id,
+          solved: 0
         });
-        about.save(function(err) {
+        team.save(function(err) {
             if (err) {
                 console.log(err)
             } else {
@@ -54,7 +50,7 @@ router.post('/add', access.requireLogin, function(req, res) {
 
 router.post('/remove', access.requireLogin, function(req, res) {
     if (req.body.id) {
-        About.remove({_id: req.body.id}, function(err, about) {
+        Team.remove({_id: req.body.id}, function(err, about) {
             res.json({
                 success: 1,
                 body: about
@@ -67,4 +63,14 @@ router.post('/remove', access.requireLogin, function(req, res) {
     }
 });
 
+router.post('/join', access.requireLogin, function(req, res) {
+    if (req.body.id) {
+        Team.update({_id: req.body.id}, function(err, team) {
+            console.log(team);
+        })
+    }
+    res.json({success: 0})
+});
+
 module.exports = router;
+

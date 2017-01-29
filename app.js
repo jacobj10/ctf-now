@@ -31,5 +31,11 @@ app.use('/api/about', about);
 var user = require('./routes/user');
 app.use('/api/user', user);
 
+var problem = require('./routes/problem');
+app.use('/api/problem', problem);
+
+var team = require('./routes/team');
+app.use('/api/team', team);
+
 app.listen(port);
 console.log('API running on port ' + port);
