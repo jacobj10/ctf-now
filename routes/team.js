@@ -28,7 +28,7 @@ router.post('/add', access.requireLogin, function(req, res) {
     if (req.body.name) {
         var team = new Team({
           name: req.body.name,
-          members: req.session.user._id,
+          members: {req.session.user._id},
           solved: 0
         });
         team.save(function(err) {
@@ -58,18 +58,39 @@ router.post('/remove', access.requireLogin, function(req, res) {
         })
     } else {
         res.json({
-            success: 0,
+            success: 0
         })
     }
 });
 
 router.post('/join', access.requireLogin, function(req, res) {
     if (req.body.id) {
-        Team.update({_id: req.body.id}, function(err, team) {
-            console.log(team);
+        Team.update({_id: req.body.id}, {"$addToSet" : { "members" :  req.session._id}}, function(err, team) {
+            res.json({
+                success: 1,
+                body: "Added - " + req.session.username
+            })
+        })
+    } else {
+        res.json({
+            success: 0
         })
     }
-    res.json({success: 0})
+});
+
+router.post('/leave', access.requireLogin, function(req, res) {
+    if (req.body.id) {
+        Team.update({_id: req.body.id}, {"$pull" : { "members" :  req.session._id}}, function(err, team) {
+            res.json({
+                success: 1,
+                body: "Removed - " + req.session.username
+            })
+        })
+    } else {
+        res.json({
+            success: 0
+        })
+    }
 });
 
 module.exports = router;

@@ -3,8 +3,9 @@ var Schema       = mongoose.Schema;
 
 var TeamSchema   = new Schema({
   name: String,
-  members: {},
-  solved: {}
+  members: [],
+  solved: [],
+  score: Number
 });
 
 module.exports = mongoose.model('Team', TeamSchema);
