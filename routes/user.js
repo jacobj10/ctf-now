@@ -76,6 +76,7 @@ router.post('/login', function(req, res) {
                     req.session.regenerate(function() {
                         req.session.user = {
                             username: user.username,
+                            name: user.firstname,
                             _id: user._id,
                             role: "standard"
                         };

@@ -8,4 +8,17 @@ function requireLogin(req, res, next) {
         });
     }
 }
-module.exports = {requireLogin};
+
+function isLoggedIn(req, res, next) {
+    if (req.session.user) {
+        res.json({
+            success: 1
+        })
+    } else {
+        res.json({
+            success: 0
+        })
+    }
+}
+
+module.exports = {requireLogin, isLoggedIn};

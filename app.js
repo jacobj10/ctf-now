@@ -20,10 +20,10 @@ app.use(session({
   secret: 'm1qewbBd2E'
 }));
 
-app.get('/', function(req, res) {
-  res.sendFile(__dirname + '/ctf-app/index.html');
-});
-app.use('/', express.static(__dirname + '/ctf-app/index.html'));
+app.engine('html', require('ejs').renderFile);
+app.set('view engine', 'html');
+
+app.use('/stylesheets', express.static(__dirname + '/stylesheets'));
 
 var about = require('./routes/about');
 app.use('/api/about', about);
@@ -36,6 +36,9 @@ app.use('/api/problem', problem);
 
 var team = require('./routes/team');
 app.use('/api/team', team);
+
+var index = require('./routes/index');
+app.use('/', index);
 
 app.listen(port);
 console.log('API running on port ' + port);

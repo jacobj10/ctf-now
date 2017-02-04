@@ -1,0 +1,48 @@
+<html ng-app="app">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-route.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-resource.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/main.css">
+
+    <div ng-controller="AppCtrl" class="testBar" ng-cloak>
+        <md-content class="md-padding">
+            <md-nav-bar md-selected-nav-item="currentNavItem" nav-bar-aria-label="navigation links">
+                <md-nav-item md-nav-click="goto('page1')" name="page1">Page One</md-nav-item>
+                <md-nav-item md-nav-click="goto('page2')" name="page2">Page Two</md-nav-item>
+                <md-nav-item md-nav-click="goto('page3')" name="page3">Page Three</md-nav-item>
+            </md-nav-bar>
+            <div class="ext-content">
+                External content for <span>{{currentNavItem}}</span>
+            </div>
+        </md-content>
+    <div ng-controller="userInfoController">
+        {{ userData }}
+    </div>
+
+    <script>
+          angular.module('app', ['ngRoute', 'ngResource'])
+
+        .factory('userInfo', ['$http', function($http){
+          return $http.get('/api/user');
+        }])
+        .controller('userInfoController', ['$scope', 'userInfo', function ($scope, userInfo) {
+          userInfo.success(function(data){
+            if (data.success == -1) {
+                $scope.userData = "Not logged in";
+            }
+            else {
+                $scope.userData = data;
+            }
+          }).error(function(data, status){
+            console.log(data, status);
+            $scope.userData = [];
+          });
+        }])
+
+        .controller('AppCtrl', ['$scope', function ($scope) {
+            $scope.currentNavItem = 'page1';
+        }]);
+    </script>
+
+
+</html>
