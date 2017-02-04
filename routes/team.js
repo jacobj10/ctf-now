@@ -3,7 +3,7 @@ var router = express.Router();
 var request = require('request');
 var url = require('url');
 var access = require('../access');
-
+var mongoose = require('mongoose');
 //Models
 var Team = require('../models/team');
 
@@ -28,7 +28,7 @@ router.post('/add', access.requireLogin, function(req, res) {
     if (req.body.name) {
         var team = new Team({
           name: req.body.name,
-          members: {req.session.user._id},
+          members: [req.session.user.username],
           solved: 0
         });
         team.save(function(err) {
@@ -65,10 +65,10 @@ router.post('/remove', access.requireLogin, function(req, res) {
 
 router.post('/join', access.requireLogin, function(req, res) {
     if (req.body.id) {
-        Team.update({_id: req.body.id}, {"$addToSet" : { "members" :  req.session._id}}, function(err, team) {
+        Team.update({_id: req.body.id}, { $addToSet : { members : req.session.user.username}}, {multi: true}, function(err, team) {
             res.json({
                 success: 1,
-                body: "Added - " + req.session.username
+                body: "Added - " + req.session.user.username
             })
         })
     } else {
@@ -80,10 +80,10 @@ router.post('/join', access.requireLogin, function(req, res) {
 
 router.post('/leave', access.requireLogin, function(req, res) {
     if (req.body.id) {
-        Team.update({_id: req.body.id}, {"$pull" : { "members" :  req.session._id}}, function(err, team) {
+        Team.update({_id: req.body.id}, {"$pull" : { "members" :  req.session.user.username}}, function(err, team) {
             res.json({
                 success: 1,
-                body: "Removed - " + req.session.username
+                body: "Removed - " + req.session.user.username
             })
         })
     } else {
