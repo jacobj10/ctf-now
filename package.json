@@ -1,0 +1,24 @@
+{
+  "name": "ctf-now",
+  "version": "1.0.0",
+  "description": "Quickly deploy ctf framework",
+  "main": "access.js",
+  "dependencies": {
+    "mongoose": "^4.9.7"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jacobj10/ctf-now.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jacobj10/ctf-now/issues"
+  },
+  "homepage": "https://github.com/jacobj10/ctf-now#readme"
+}
