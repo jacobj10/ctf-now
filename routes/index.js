@@ -6,7 +6,7 @@ router.get('/', function(req, res) {
     if (req.session.user) {
         status = 'Logged in';
     }
-    res.render('index.ejs', { title: 'CTF-NOW', status: status });
+    res.render('index');
 });
 
 module.exports = router;

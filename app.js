@@ -20,10 +20,7 @@ app.use(session({
   secret: 'm1qewbBd2E'
 }));
 
-app.engine('html', require('ejs').renderFile);
-app.set('view engine', 'html');
-
-app.use('/stylesheets', express.static(__dirname + '/stylesheets'));
+app.set('view engine', 'ejs');
 
 var about = require('./routes/about');
 app.use('/api/about', about);
